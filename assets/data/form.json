@@ -1,0 +1,498 @@
+{
+    "id": "land_registration_form",
+    "name": "Kojo Land Registration Form",
+    "assigned_to": [
+        "user1"
+    ],
+    "sections": [
+        {
+            "title": "Land Owner's Profile",
+            "fields": [
+                {
+                    "id": "name",
+                    "label": "Name (ID name)",
+                    "type": "text",
+                    "placeholder": "Enter your name as per ID",
+                    "validation": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 2,
+                        "maxLength": 50
+                    }
+                },
+                {
+                    "id": "popular_name",
+                    "label": "Popular Name",
+                    "type": "text",
+                    "placeholder": "Enter your popular name",
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "gender",
+                    "label": "Gender",
+                    "type": "radio",
+                    "options": ["Male", "Female", "Other"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "dob",
+                    "label": "Date of Birth",
+                    "type": "date",
+                    "validation": {
+                        "type": "date",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "place_of_birth",
+                    "label": "Place of Birth",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "phone_number",
+                    "label": "Phone Number",
+                    "type": "tel",
+                    "validation": {
+                        "type": "phone",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "ethnicity",
+                    "label": "Ethnicity",
+                    "type": "radio",
+                    "options": ["Migrant", "Native"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "marital_status",
+                    "label": "Marital Status",
+                    "type": "select",
+                    "options": ["Married", "Single", "Divorced", "Widowed", "Cohabitation"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "spouse_name",
+                    "label": "Spouse Name",
+                    "type": "text",
+                    "dependsOn": {
+                        "fieldId": "marital_status",
+                        "showWhenValue": "Married"
+                    },
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "spouse_phone_number",
+                    "label": "Spouse's Phone Number",
+                    "type": "tel",
+                    "dependsOn": {
+                        "fieldId": "marital_status",
+                        "showWhenValue": "Married"
+                    },
+                    "validation": {
+                        "type": "phone",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "next_of_kin",
+                    "label": "Next of Kin",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "occupation",
+                    "label": "Occupation",
+                    "type": "select",
+                    "options": ["Farmer", "Trader", "Civil Servant", "Artisan", "Other"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "community_of_residence",
+                    "label": "Community of Residence",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "house_no",
+                    "label": "House No",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "house_location",
+                    "label": "House Location within the Community",
+                    "type": "text",
+                    "placeholder": "e.g., opposite Presby School",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "id_type",
+                    "label": "Land Owner's ID Type",
+                    "type": "select",
+                    "options": ["Ghana card", "Voter ID", "Other"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "id_number",
+                    "label": "Land Owner's ID Number",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "photo_of_id",
+                    "label": "Photo of ID",
+                    "type": "file",
+                    "validation": {
+                        "type": "file",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "photo_of_land_owner",
+                    "label": "Photo of Land Owner",
+                    "type": "file",
+                    "validation": {
+                        "type": "image",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "is_applicant_owner",
+                    "label": "Is the Applicant the Owner of the Land?",
+                    "type": "radio",
+                    "options": ["Yes", "No"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                            "id": "relation_to_land_owner",
+                            "label": "What is Your Relation to the Land Owner?",
+                            "type": "select",
+                    "dependsOn": {
+                        "fieldId": "is_applicant_owner",
+                        "showWhenValue": "No"
+                    },
+                    "options": [
+                                "Caretaker",
+                                "Child",
+                                "Parent",
+                                "Sibling",
+                                "Family Head",
+                                "Other"
+                            ],
+                            "validation": {
+                                "type": "string",
+                                "required": true
+                            }
+                        },
+                        {
+                            "id": "representative_name",
+                            "label": "Name of Representative",
+                            "type": "text",
+                            "dependsOn": {
+                                "fieldId": "is_applicant_owner",
+                                "showWhenValue": "No"
+                            },"validation": {
+                                "type": "string",
+                                "required": true
+                            }
+                        },
+                        {
+                            "id": "representative_id",
+                            "label": "ID of Representative",
+                            "type": "text",
+                            "dependsOn": {
+                                "fieldId": "is_applicant_owner",
+                                "showWhenValue": "No"
+                            },"validation": {
+                                "type": "string",
+                                "required": true
+                            }
+                        },
+                        {
+                            "id": "photo_of_representative_id",
+                            "label": "Photo of Representative ID",
+                            "type": "file",
+                            "dependsOn": {
+                                "fieldId": "is_applicant_owner",
+                                "showWhenValue": "No"
+                            },"validation": {
+                                "type": "image",
+                                "required": true
+                            }
+                        },
+                        {
+                            "id": "photo_of_representative",
+                            "label": "Photo of Representative",
+                            "type": "file",
+                            "dependsOn": {
+                                "fieldId": "is_applicant_owner",
+                                "showWhenValue": "No"
+                            },"validation": {
+                                "type": "image",
+                                "required": true
+                            }
+                        }
+                    ]
+                }
+
+        ,
+        {
+            "title": "Land Profile",
+            "fields": [
+                {
+                    "id": "farm_code",
+                    "label": "Farm Code",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "locality_of_land",
+                    "label": "Locality of Land",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "region",
+                    "label": "Region",
+                    "type": "region",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "district",
+                    "label": "District",
+                    "type": "district",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "paramountcy",
+                    "label": "Paramountcy",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "stool_family_skin",
+                    "label": "Stool/Family/Skin",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "land_ownership_type",
+                    "label": "Land Ownership Type",
+                    "type": "select",
+                    "options": ["Stool", "Family", "Skin", "Other"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "land_tenure_type",
+                    "label": "Land Tenure Type",
+                    "type": "select",
+                    "options": [
+                        "Freehold",
+                        "Leasehold",
+                        "Sharecropping",
+                        "Customary Tenancy",
+                        "Other"
+                    ],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "means_of_acquisition",
+                    "label": "Means of Acquisition",
+                    "type": "select",
+                    "options": [
+                        "Inheritance",
+                        "Gift",
+                        "Succession",
+                        "Purchase",
+                        "Sharecropping",
+                        "Other"
+                    ],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "acquired_from",
+                    "label": "Acquired From",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "acquisition_date",
+                    "label": "Acquisition Date",
+                    "type": "date",
+                    "validation": {
+                        "type": "date",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "witnesses",
+                    "label": "Witnesses During the Acquisition",
+                    "type": "textarea",
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "competing_claims",
+                    "label": "Competing Claims",
+                    "type": "radio",
+                    "options": ["Yes", "No"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "boundary_dispute",
+                    "label": "Boundary Dispute",
+                    "type": "radio",
+                    "options": ["Yes", "No"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "farm_house",
+                    "label": "Farm House",
+                    "type": "radio",
+                    "options": ["Yes", "No"],
+                    "validation": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "boundary_neighbours",
+                    "label": "Boundary Neighbours",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "boundary_markings",
+                    "label": "Boundary Markings",
+                    "type": "checkbox",
+                    "options": [
+                        "Flowers",
+                        "Footpath/Road",
+                        "Stream/River",
+                        "Timber tree",
+                        "Forest",
+                        "Mountain",
+                        "Other"
+                    ],
+                    "validation": {
+                        "type": "array",
+                        "required": true
+                    }
+                },
+                {
+                    "id": "parcel_topography",
+                    "label": "Parcel Topography",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "crops_on_parcel",
+                    "label": "Crops on Parcel",
+                    "type": "text",
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                },
+                {
+                    "id": "land_history",
+                    "label": "Land History",
+                    "type": "textarea",
+                    "placeholder": "Capture the story of the land",
+                    "validation": {
+                        "type": "string",
+                        "required": false
+                    }
+                }
+            ]
+        }
+    ]
+}

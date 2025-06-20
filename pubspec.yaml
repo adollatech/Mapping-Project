@@ -1,0 +1,38 @@
+name: surveyapp
+description: "A land mapping mobile app."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  pdf: ^3.11.3
+  flutter_blue_plus: ^1.35.4
+  flutter_map: ^8.1.1
+  geolocator: ^13.0.4
+  hive_ce: ^2.9.0
+  hive_ce_flutter: ^2.2.0
+  pocketbase: ^0.22.0
+#  workmanager: ^0.5.2
+  latlong2: ^0.9.1
+  provider: ^6.1.4
+  maps_toolkit: ^3.1.0
+  uuid: ^4.5.1
+  image_picker: ^1.1.2
+  shadcn_ui: ^0.27.1
+  package_info_plus: ^8.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  change_app_package_name: ^1.5.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/data/
