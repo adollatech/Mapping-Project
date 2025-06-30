@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart'; // For ChangeNotifier
 import 'package:hive_ce/hive.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:surveyapp/models/agent.dart';
 import 'package:surveyapp/models/service_response.dart';
 import 'package:surveyapp/utils/service_response_exception.dart';
 
@@ -46,6 +47,64 @@ class AuthService extends ChangeNotifier {
 
   Future<RecordModel> profile(String userId) {
     return pb.collection("users").getOne(userId);
+  }
+
+  Future<void> requestVerification(String email) async {
+    try {
+      await pb.collection("users").requestVerification(email);
+    } on ClientException catch (e) {
+      log(e.toString(), error: e.response);
+      throw ServiceResponseException(ServiceResponse.fromJson(e.response));
+    }
+  }
+
+  Future<void> verifyEmail(String token) async {
+    try {
+      await pb.collection("users").confirmVerification(token);
+    } on ClientException catch (e) {
+      log(e.toString(), error: e.response);
+      throw ServiceResponseException(ServiceResponse.fromJson(e.response));
+    }
+  }
+
+  Future<void> requestPasswordReset(String email) async {
+    try {
+      await pb.collection("users").requestPasswordReset(email);
+    } on ClientException catch (e) {
+      log(e.toString(), error: e.response);
+      throw ServiceResponseException(ServiceResponse.fromJson(e.response));
+    }
+  }
+
+  Future<void> resetPassword(
+      String token, String password, String passwordConfirm) async {
+    try {
+      await pb
+          .collection("users")
+          .confirmPasswordReset(token, password, passwordConfirm);
+    } on ClientException catch (e) {
+      log(e.toString(), error: e.response);
+      throw ServiceResponseException(ServiceResponse.fromJson(e.response));
+    }
+  }
+
+  Future<RecordAuth> refreshAuth() async {
+    try {
+      return await pb.collection("users").authRefresh();
+    } on ClientException catch (e) {
+      log(e.toString(), error: e.response);
+      throw ServiceResponseException(ServiceResponse.fromJson(e.response));
+    }
+  }
+
+  Future<RecordModel> updateProfile(
+      String id, Map<String, dynamic> agent) async {
+    try {
+      return await pb.collection('users').update(id, body: agent);
+    } on ClientException catch (e) {
+      log(e.toString(), error: e.response);
+      throw ServiceResponseException(ServiceResponse.fromJson(e.response));
+    }
   }
 
   void signOut() {

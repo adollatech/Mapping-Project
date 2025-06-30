@@ -1,7 +1,13 @@
+import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:device_preview/device_preview.dart';
+
 import 'package:surveyapp/screens/about.dart';
+import 'package:surveyapp/screens/email_confirmation_screen.dart';
+import 'package:surveyapp/screens/profile_screen.dart';
+import 'package:surveyapp/screens/reset_password_screen.dart';
 
 import 'screens/data_sync_screen.dart';
 import 'screens/home_screen.dart';
@@ -41,7 +47,10 @@ Future<void> main() async {
 
   await Hive.initFlutter();
   await Hive.openBox('auth');
-  runApp(MyApp());
+  runApp(DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -50,11 +59,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShadApp(
-      title: 'SurveyLand',
+      title: 'LapTrace',
       darkTheme: ShadThemeData(
       brightness: Brightness.dark,
       colorScheme:  ShadGrayColorScheme.dark(),
       ),
+      
       theme: ShadThemeData(
           colorScheme: ShadSlateColorScheme.light(),
           brightness: Brightness.light),
@@ -70,12 +80,15 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
+        '/reset-password': (context) => const ResetPasswordScreen(),
+        '/verify-email': (context) => const EmailConfirmationScreen(),
         '/register': (context) => const SignUpScreen(),
         '/home': (context) => const HomeScreen(),
         '/mapping_list': (context) => const MappingListScreen(),
         '/settings': (context) => const SettingsScreen(),
         '/data_sync': (context) => const DataSyncScreen(),
         '/about': (context) => const About(),
+        '/profile': (context) => const ProfileScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

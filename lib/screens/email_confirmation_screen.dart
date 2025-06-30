@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/field.dart';
@@ -10,17 +8,16 @@ import 'package:surveyapp/utils/utils.dart';
 import 'package:surveyapp/widgets/app_name.dart';
 import 'package:surveyapp/widgets/mobile_card.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class EmailConfirmationScreen extends StatefulWidget {
+  const EmailConfirmationScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<EmailConfirmationScreen> createState() => _EmailConfirmationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final formKey = GlobalKey<ShadFormState>();
-  bool _obscure = true;
-  bool _loading = false;
+class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
+    final formKey = GlobalKey<ShadFormState>();
+    bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
           spacing: 24,
           children: [
             const AppName(),
+            const SizedBox(height: 24),
             const Text(
-              'Login to your account',
+              'Confirm your email address',
               style: TextStyle(
                 fontSize: 18,
               ),
@@ -42,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ShadInputFormField(
               id: 'email',
-              // label: const Text('Email address'),
+              label: const Text('Email address'),
               placeholder: const Text('Email address'),
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
@@ -68,46 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 return null;
               },
             ),
-            ShadInputFormField(
-              id: "password",
-              placeholder: const Text('Password'),
-              obscureText: _obscure,
-              leading: const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Icon(LucideIcons.lock),
-              ),
-              trailing: ShadIconButton(
-                width: 24,
-                height: 24,
-                padding: EdgeInsets.zero,
-                decoration: const ShadDecoration(
-                  secondaryBorder: ShadBorder.none,
-                  secondaryFocusedBorder: ShadBorder.none,
-                ),
-                icon: Icon(_obscure ? LucideIcons.eyeOff : LucideIcons.eye),
-                onPressed: () {
-                  setState(() => _obscure = !_obscure);
-                },
-              ),
-            ),
             ShadButton(
-              onPressed: _loading ? null : _handleLogin,
+              onPressed: _loading ? null : _verifyEmail,
               trailing:
                   _loading ? const CircularProgressIndicator.adaptive() : null,
-              child: const Text('Login'),
-            ),
-            Column(
-              children: [
-                ShadButton.link(
-                    child: Text('Forgot Password?'), onPressed: () {
-                      Navigator.pushNamed(context, '/reset-password');
-                    }),
-                ShadButton.link(
-                    child: Text('No Account? Register'),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/register');
-                    }),
-              ],
+              child: const Text('Verify Email'),
             ),
           ],
         ),
@@ -115,16 +78,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _verifyEmail() async {
     if (formKey.currentState!.saveAndValidate()) {
-      log("Form: ${formKey.currentState!.value['password']}");
       setState(() => _loading = true);
       final email = formKey.currentState?.value['email'];
-      final password = formKey.currentState?.value['password'];
       try {
-        await AuthService().signInWithEmailAndPassword(email, password);
+        await AuthService().verifyEmail(email);
         if (mounted) {
-          showSnackBar(context, 'Login successful', success: true);
+          showSnackBar(context, 'Email has been verified', success: true);
         }
       } on ServiceResponseException catch (e) {
         if (mounted) {
@@ -136,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } else {
-      showSnackBar(context, 'All fields are required', error: true);
+      showSnackBar(context, 'Please email address required', error: true);
     }
   }
 }

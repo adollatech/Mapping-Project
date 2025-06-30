@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:surveyapp/services/auth_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,14 +14,27 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Text(
               'Welcome to LatTrace',
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/about');
-              },
-              child: const Text('About LatTrace'),
+            Row(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ShadButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/profile');
+                  },
+                  child: const Text('My Profile'),
+                ),
+                ShadButton.outline(
+                  onPressed: () {
+                    AuthService().signOut();
+                  },
+                  child: const Text('Logout'),
+                ),
+              ],
             ),
           ],
         ),

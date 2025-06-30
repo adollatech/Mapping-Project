@@ -2,25 +2,24 @@ class Agent {
   final String id;
   final String name;
   final String email;
-  final String phone;
-  final String companyCode;
+  final String? phone;
+  final String? companyCode;
 
   Agent({
     required this.id,
     required this.name,
     required this.email,
-    required this.phone,
-    required this.companyCode,
+    this.phone,
+    this.companyCode,
   });
 
-  // Convert a JSON map to an Agent instance
   factory Agent.fromJson(Map<String, dynamic> json) {
     return Agent(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      email: json['email'] as String,
-      phone: json['phone'] as String,
-      companyCode: json['companyCode'] as String,
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      phone: json['phone'],
+      companyCode: json['companyCode'],
     );
   }
 
