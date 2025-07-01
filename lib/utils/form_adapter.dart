@@ -391,24 +391,31 @@ class _FormAdapterState extends State<FormAdapter> {
       child: Stack(
         children: [
           SingleChildScrollView(
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.only(
                   left: 16.0,
                   right: 16.0,
                   bottom: 80.0,
                   top: 16.0), // Added top padding & more bottom
-              child: AnimatedSwitcher(
-                duration:
-                    const Duration(milliseconds: 300), // Faster transition
-                transitionBuilder: (child, animation) =>
-                    FadeTransition(opacity: animation, child: child),
+              child: Center(
                 child: Container(
-                  key: ValueKey<int>(_currentIndex), // Key for AnimatedSwitcher
-                  alignment: Alignment.topLeft, // Better for forms
-                  child: _builtSections
-                          .isNotEmpty // Ensure _builtSections is not accessed if empty
-                      ? _builtSections[_currentIndex]
-                      : const SizedBox.shrink(),
+                  alignment: Alignment.topCenter,
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: AnimatedSwitcher(
+                    duration:
+                        const Duration(milliseconds: 300), // Faster transition
+                    transitionBuilder: (child, animation) =>
+                        FadeTransition(opacity: animation, child: child),
+                    child: Container(
+                      key: ValueKey<int>(
+                          _currentIndex), // Key for AnimatedSwitcher
+                      alignment: Alignment.topLeft, // Better for forms
+                      child: _builtSections
+                              .isNotEmpty // Ensure _builtSections is not accessed if empty
+                          ? _builtSections[_currentIndex]
+                          : const SizedBox.shrink(),
+                    ),
+                  ),
                 ),
               ),
             ),

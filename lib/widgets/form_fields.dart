@@ -200,6 +200,7 @@ class DateInputField extends StatelessWidget {
     return ShadDatePickerFormField(
       id: field.id,
       label: Text(field.label),
+      width: MediaQuery.of(context).size.width * 0.9,
       onChanged: onChanged,
       initialValue: currentValue,
       validator: (value) =>
@@ -408,7 +409,7 @@ class TextAreaInputField extends StatelessWidget {
       label: Text(field.label),
       placeholder: Text(field.placeholder ?? ''),
       onChanged: onChanged,
-      initialValue: currentValue,
+      // initialValue: currentValue,
       validator: (value) =>
           _validateField(value, FieldValidation(validation: field.validation)),
     );

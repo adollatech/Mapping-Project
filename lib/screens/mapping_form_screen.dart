@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/dynamic_form.dart';
 import 'package:surveyapp/utils/form_adapter.dart';
 
@@ -56,7 +57,7 @@ class _MappingFormScreenState extends State<MappingFormScreen> {
             appBar: AppBar(
               title: Text(form.name),
             ),
-            body: FormAdapter(form: form),
+            body: ShadCard(child: FormAdapter(form: form)),
           );
         }
       },

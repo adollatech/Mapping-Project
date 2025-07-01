@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart'; // For ChangeNotifier
 import 'package:hive_ce/hive.dart';
 import 'package:pocketbase/pocketbase.dart';
-import 'package:surveyapp/models/agent.dart';
 import 'package:surveyapp/models/service_response.dart';
 import 'package:surveyapp/utils/service_response_exception.dart';
 
@@ -45,8 +44,8 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<RecordModel> profile(String userId) {
-    return pb.collection("users").getOne(userId);
+  Future<RecordModel> profile() {
+    return pb.collection("users").getOne(pb.authStore.record?.id ?? '');
   }
 
   Future<void> requestVerification(String email) async {
@@ -97,10 +96,11 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<RecordModel> updateProfile(
-      String id, Map<String, dynamic> agent) async {
+  Future<RecordModel> updateProfile(Map<String, dynamic> details) async {
     try {
-      return await pb.collection('users').update(id, body: agent);
+      return await pb
+          .collection('users')
+          .update(pb.authStore.record?.id ?? '', body: details);
     } on ClientException catch (e) {
       log(e.toString(), error: e.response);
       throw ServiceResponseException(ServiceResponse.fromJson(e.response));
