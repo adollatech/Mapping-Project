@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/utils/utils.dart';
 import 'package:surveyapp/widgets/tappable_card.dart';
 
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       icon: LucideIcons.recycle,
       title: "Reuse Survey",
       subtitle: "Reuse an existing survey",
+      onTap: (context) => Navigator.pushNamed(context, '/map'),
     ),
     Action(
       icon: LucideIcons.listCheck,
@@ -57,8 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
+        actionsPadding: EdgeInsets.only(right: 16),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(LucideIcons.user)),
+          IconButton(onPressed: () {
+            Navigator.pushNamed(context, '/settings');
+          }, icon: Icon(LucideIcons.settings)),
+          ShadButton.ghost(onPressed: () {
+            AuthService().signOut();
+          }, leading: Icon(LucideIcons.logOut), child: Text('Logout'),),
         ],
       ),
       body: GridView.builder(

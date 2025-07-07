@@ -25,7 +25,7 @@ class TappableCard extends StatelessWidget {
               icon,
               size: 24,
             ),
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            Expanded(child: Text(title, style: Theme.of(context).textTheme.titleMedium)),
           ],
         ),
         child: subtitle != null

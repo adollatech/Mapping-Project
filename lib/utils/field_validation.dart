@@ -70,10 +70,10 @@ class FieldValidation {
     }
     if (validation.type == 'password') {
       validations.add(Validator(
-          condition: !RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")
-              .hasMatch(value),
+          condition: !RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$')
+          .hasMatch(value),
           message:
-              "Password must have 8+ chars, 1 uppercase, 1 lowercase, and 1 number"));
+          "Password must have 8+ chars, 1 uppercase, 1 lowercase, and 1 number"));
     }
     return validations;
   }

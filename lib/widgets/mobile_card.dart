@@ -19,9 +19,11 @@ class MobileCard extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 child: Center(
                     child: IntrinsicHeight(
-                  child: ShadCard(
-                      width: isLargeScreenDevice ? 374 : size,
-                      child: child),
+                  child: SingleChildScrollView(
+                    child: ShadCard(
+                        width: isLargeScreenDevice ? 374 : size,
+                        child: child),
+                  ),
                 )))));
   }
 }

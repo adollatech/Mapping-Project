@@ -10,13 +10,15 @@ import 'package:surveyapp/utils/service_response_exception.dart';
 enum AuthState { unknown, authenticated, unauthenticated }
 
 PocketBase get pb {
-  final box = Hive.box("auth");
+  final box = Hive.box("settings");
 
   final store = AsyncAuthStore(
     save: (String data) async => box.put('pb_auth', data),
     initial: box.get('pb_auth'),
   );
-  return PocketBase('http://127.0.0.1:8090', authStore: store);
+  return PocketBase(
+    'https://bluegill-fitting-oddly.ngrok-free.app', 
+    authStore: store);
 }
 
 class AuthService extends ChangeNotifier {
@@ -109,6 +111,6 @@ class AuthService extends ChangeNotifier {
 
   void signOut() {
     pb.authStore.clear();
-    Hive.box("auth").clear();
+    Hive.box("settings").clear();
   }
 }

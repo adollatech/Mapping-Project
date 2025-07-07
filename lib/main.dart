@@ -5,8 +5,8 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:device_preview/device_preview.dart';
 
 import 'package:surveyapp/screens/about.dart';
+import 'package:surveyapp/screens/boundary_mapping.dart';
 import 'package:surveyapp/screens/email_confirmation_screen.dart';
-import 'package:surveyapp/screens/map_screen.dart';
 import 'package:surveyapp/screens/mapping_form_screen.dart';
 import 'package:surveyapp/screens/profile_screen.dart';
 import 'package:surveyapp/screens/reset_password_screen.dart';
@@ -37,18 +37,9 @@ import 'screens/signup_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Workmanager().initialize(
-  //   callbackDispatcher,
-  //   isInDebugMode: true, // Set to false in production
-  // );
-  // Workmanager().registerPeriodicTask(
-  //   "uniquePeriodicTaskName",
-  //   "simpleTask",
-  //   frequency: Duration(hours: 1), // Minimum 15 minutes
-  // );
 
   await Hive.initFlutter();
-  await Hive.openBox('auth');
+  await Hive.openBox('settings');
   runApp(DevicePreview(
     enabled: !kReleaseMode,
     builder: (context) => MyApp(),
@@ -60,41 +51,91 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadApp(
-      title: 'LapTrace',
-      darkTheme: ShadThemeData(
-      brightness: Brightness.dark,
-      colorScheme:  ShadGrayColorScheme.dark(),
-      ),
-      
-      theme: ShadThemeData(
-          colorScheme: ShadSlateColorScheme.light(),
-          brightness: Brightness.light),
-      home: ValueListenableBuilder(
-        valueListenable: Hive.box("auth").listenable(),
-        builder: (context, auth, w) {
-          if (auth.containsKey('pb_auth') && auth.get('pb_auth') != null) {
-            return const HomeScreen();
-          }
-          return const LoginScreen();
-        },
-      ),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignUpScreen(),
-        '/reset-password': (context) => const ResetPasswordScreen(),
-        '/verify-email': (context) => const EmailConfirmationScreen(),
-        '/new-survey': (context) => const MappingFormScreen(),
-        '/map': (context) => const MapScreen(),
-        '/register': (context) => const SignUpScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/mapping_list': (context) => const MappingListScreen(),
-        '/settings': (context) => const SettingsScreen(),
-        '/data_sync': (context) => const DataSyncScreen(),
-        '/about': (context) => const About(),
-        '/profile': (context) => const ProfileScreen(),
-      },
-      debugShowCheckedModeBanner: false,
-    );
+    return ValueListenableBuilder(
+        valueListenable: Hive.box('settings').listenable(),
+        builder: (context, settings, child) {
+          final isLoggedIn = settings.containsKey('pb_auth') &&
+              settings.get('pb_auth') != null;
+          final savedTheme = settings.get('theme', defaultValue: 'system');
+          final themeMode = savedTheme == 'light'
+              ? ThemeMode.light
+              : savedTheme == 'dark'
+                  ? ThemeMode.dark
+                  : ThemeMode.system;
+          return ShadApp(
+            title: 'LapTrace',
+            darkTheme: ShadThemeData(
+              brightness: Brightness.dark,
+              colorScheme: ShadGrayColorScheme.dark(),
+            ),
+            themeMode: themeMode,
+            theme: ShadThemeData(
+                colorScheme: ShadSlateColorScheme.light(),
+                brightness: Brightness.light),
+            home: ValueListenableBuilder(
+                valueListenable: settings.listenable(),
+                builder: (context, box, w) {
+                  if (box.containsKey('pb_auth') &&
+                      box.get('pb_auth') != null) {
+                    return const HomeScreen();
+                  }
+                  return const LoginScreen();
+                }),
+            onGenerateRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (ctx) {
+                  switch (settings.name) {
+                    case '/':
+                      return isLoggedIn ? const HomeScreen() : LoginScreen();
+                    case '/login':
+                      return const LoginScreen();
+                    case '/signup':
+                      return const SignUpScreen();
+                    case '/reset-password':
+                      return const ResetPasswordScreen();
+                    case '/verify-email':
+                      return const EmailConfirmationScreen();
+                    case '/new-survey':
+                      return const MappingFormScreen();
+                    case '/map':
+                      return const BoundaryMapping();
+                    case '/register':
+                      return const SignUpScreen();
+                    case '/home':
+                      return const HomeScreen();
+                    case '/mapping_list':
+                      return const MappingListScreen();
+                    case '/settings':
+                      return const SettingsScreen();
+                    case '/data_sync':
+                      return const DataSyncScreen();
+                    case '/about':
+                      return const About();
+                    case '/profile':
+                      return const ProfileScreen();
+                    default:
+                      return isLoggedIn ? const HomeScreen() : LoginScreen();
+                  }
+                },
+              );
+            },
+            routes: {
+              '/login': (context) => const LoginScreen(),
+              '/signup': (context) => const SignUpScreen(),
+              '/reset-password': (context) => const ResetPasswordScreen(),
+              '/verify-email': (context) => const EmailConfirmationScreen(),
+              '/new-survey': (context) => const MappingFormScreen(),
+              '/map': (context) => const BoundaryMapping(),
+              '/register': (context) => const SignUpScreen(),
+              '/home': (context) => const HomeScreen(),
+              '/mapping_list': (context) => const MappingListScreen(),
+              '/settings': (context) => const SettingsScreen(),
+              '/data_sync': (context) => const DataSyncScreen(),
+              '/about': (context) => const About(),
+              '/profile': (context) => const ProfileScreen(),
+            },
+            debugShowCheckedModeBanner: false,
+          );
+        });
   }
 }

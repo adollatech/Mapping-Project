@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/field.dart';
+import 'package:surveyapp/screens/trailing_loader.dart';
 import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/utils/field_validation.dart';
 import 'package:surveyapp/utils/service_response_exception.dart';
@@ -19,6 +21,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<ShadFormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscure = true;
   bool _loading = false;
 
@@ -33,16 +37,27 @@ class _LoginScreenState extends State<LoginScreen> {
           spacing: 24,
           children: [
             const AppName(),
-            const Text(
-              'Login to your account',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
+            Row(
+              children: [
+                Expanded(
+                  child: const Text(
+                    'Login to your account',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                if (kDebugMode)
+                  IconButton(
+                      onPressed: _fillFormInDevMode,
+                      icon: const Icon(Icons.auto_fix_normal_rounded)),
+              ],
             ),
             ShadInputFormField(
               id: 'email',
               // label: const Text('Email address'),
+              controller: _emailController,
               placeholder: const Text('Email address'),
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
@@ -70,6 +85,23 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ShadInputFormField(
               id: "password",
+              controller: _passwordController,
+              validator: (v) {
+                final validation = FieldValidation(
+                    validation: Validation(
+                  type: 'password',
+                  required: true,
+                ));
+                final result = validation.validate(v);
+                if (result.isNotEmpty) {
+                  for (var element in result) {
+                    if (element.condition) {
+                      return element.message;
+                    }
+                  }
+                }
+                return null;
+              },
               placeholder: const Text('Password'),
               obscureText: _obscure,
               leading: const Padding(
@@ -92,8 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ShadButton(
               onPressed: _loading ? null : _handleLogin,
-              trailing:
-                  _loading ? const CircularProgressIndicator.adaptive() : null,
+              trailing: _loading ? const TrailingLoader() : null,
               child: const Text('Login'),
             ),
             Column(
@@ -113,6 +144,13 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void _fillFormInDevMode() {
+    if (formKey.currentState != null) {
+      _emailController.text = 'alhassankamil10@gmail.com';
+      _passwordController.text = 'Nayi52645@';
+    }
   }
 
   Future<void> _handleLogin() async {

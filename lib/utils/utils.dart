@@ -125,3 +125,7 @@ void showSnackBar(BuildContext context, String message,
   }
   ShadToaster.of(context).show(toast);
 }
+
+push(BuildContext context, Widget page) {
+  Navigator.push(context, MaterialPageRoute(builder: (ctx) => page));
+}
