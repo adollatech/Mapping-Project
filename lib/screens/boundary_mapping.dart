@@ -28,9 +28,9 @@ class _BoundaryMappingState extends State<BoundaryMapping> {
   StreamSubscription<LatLng>? _locationSubscription;
 
   // Mapping data
-  List<BoundaryPoint> _currentBoundaryPoints = [];
-  List<MappedArea> _mappedAreas = [];
-  List<SharedBoundary> _sharedBoundaries = [];
+  final List<BoundaryPoint> _currentBoundaryPoints = [];
+  final List<MappedArea> _mappedAreas = [];
+  final List<SharedBoundary> _sharedBoundaries = [];
 
   // UI state
   double _currentZoom = 18.0;

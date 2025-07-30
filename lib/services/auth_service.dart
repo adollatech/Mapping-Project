@@ -16,9 +16,7 @@ PocketBase get pb {
     save: (String data) async => box.put('pb_auth', data),
     initial: box.get('pb_auth'),
   );
-  return PocketBase(
-    'https://bluegill-fitting-oddly.ngrok-free.app', 
-    authStore: store);
+  return PocketBase('http://127.0.0.1:8090', authStore: store);
 }
 
 class AuthService extends ChangeNotifier {

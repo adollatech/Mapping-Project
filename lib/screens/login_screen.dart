@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
               validator: (v) {
                 final validation = FieldValidation(
                     validation: Validation(
-                  type: 'password',
+                  type: 'text',
                   required: true,
                 ));
                 final result = validation.validate(v);
@@ -130,7 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               children: [
                 ShadButton.link(
-                    child: Text('Forgot Password?'), onPressed: () {
+                    child: Text('Forgot Password?'),
+                    onPressed: () {
                       Navigator.pushNamed(context, '/reset-password');
                     }),
                 ShadButton.link(

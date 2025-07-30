@@ -94,7 +94,7 @@ class _RecordStreamBuilderState<T> extends State<RecordStreamBuilder<T>> {
             child: Text("You have no ${widget.collection} yet"),
           );
         }
-        return widget.builder(context, snapshot.data!);
+        return widget.builder(context, snapshot.data as T);
       },
     );
   }

@@ -136,7 +136,14 @@ class _FormAdapterState extends State<FormAdapter> {
       return showWhenValue == null;
     }
 
-    return actualValue == showWhenValue;
+    switch (field.dependsOn?.condition) {
+      case Condition.equals:
+        return actualValue == showWhenValue;
+      case Condition.contains:
+        return actualValue.contains(showWhenValue);
+      default:
+        return actualValue != showWhenValue;
+    }
   }
 
   Widget _buildFieldUI(Field field) {
@@ -350,7 +357,6 @@ class _FormAdapterState extends State<FormAdapter> {
         }
       }
 
-      log('Form Data: $formDataToSubmit');
       showSnackBar(context, 'Form Submitted! (See console for data)',
           success: true);
       // Implement your actual submission logic here
@@ -395,7 +401,7 @@ class _FormAdapterState extends State<FormAdapter> {
               padding: const EdgeInsets.only(
                   left: 16.0,
                   right: 16.0,
-                  bottom: 80.0,
+                  bottom: 20.0,
                   top: 16.0), // Added top padding & more bottom
               child: Center(
                 child: Container(

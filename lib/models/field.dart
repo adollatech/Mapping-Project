@@ -1,16 +1,24 @@
+enum Condition { equals, notEquals, contains }
+
 class FieldDependency {
   final String fieldId;
   final dynamic showWhenValue; // Can be String, bool, int, etc.
+  final Condition condition;
 
   FieldDependency({
     required this.fieldId,
     required this.showWhenValue,
+    required this.condition,
   });
 
   factory FieldDependency.fromMap(Map<String, dynamic> map) {
     return FieldDependency(
       fieldId: map['fieldId'] as String,
       showWhenValue: map['showWhenValue'], // Keep it dynamic
+      condition: Condition.values.firstWhere(
+        (e) => e.name == map['condition'],
+        orElse: () => Condition.equals,
+      ),
     );
   }
 
@@ -21,6 +29,7 @@ class FieldDependency {
     return {
       'fieldId': fieldId,
       'showWhenValue': showWhenValue,
+      'condition': condition.name,
     };
   }
 }

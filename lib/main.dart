@@ -7,7 +7,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:surveyapp/screens/about.dart';
 import 'package:surveyapp/screens/boundary_mapping.dart';
 import 'package:surveyapp/screens/email_confirmation_screen.dart';
-import 'package:surveyapp/screens/mapping_form_screen.dart';
+import 'package:surveyapp/screens/forms_screen.dart';
 import 'package:surveyapp/screens/profile_screen.dart';
 import 'package:surveyapp/screens/reset_password_screen.dart';
 
@@ -95,8 +95,8 @@ class MyApp extends StatelessWidget {
                       return const ResetPasswordScreen();
                     case '/verify-email':
                       return const EmailConfirmationScreen();
-                    case '/new-survey':
-                      return const MappingFormScreen();
+                    case '/surveys':
+                      return const FormsScreen();
                     case '/map':
                       return const BoundaryMapping();
                     case '/register':
@@ -124,7 +124,7 @@ class MyApp extends StatelessWidget {
               '/signup': (context) => const SignUpScreen(),
               '/reset-password': (context) => const ResetPasswordScreen(),
               '/verify-email': (context) => const EmailConfirmationScreen(),
-              '/new-survey': (context) => const MappingFormScreen(),
+              '/surveys': (context) => const FormsScreen(),
               '/map': (context) => const BoundaryMapping(),
               '/register': (context) => const SignUpScreen(),
               '/home': (context) => const HomeScreen(),

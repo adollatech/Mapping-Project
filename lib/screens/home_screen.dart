@@ -25,12 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
     Action(
         icon: LucideIcons.plus100,
         title: "New Survey",
-        subtitle: "Create a new survey to collect responses",
-        onTap: (ctx) => Navigator.pushNamed(ctx, '/new-survey')),
+        subtitle: "Start a survey to collect responses",
+        onTap: (ctx) => Navigator.pushNamed(ctx, '/surveys')),
     Action(
       icon: LucideIcons.recycle,
-      title: "Reuse Survey",
-      subtitle: "Reuse an existing survey",
+      title: "Continue Survey",
+      subtitle: "Continue an existing survey that was previously saved",
       onTap: (context) => Navigator.pushNamed(context, '/map'),
     ),
     Action(
@@ -61,12 +61,18 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Dashboard'),
         actionsPadding: EdgeInsets.only(right: 16),
         actions: [
-          IconButton(onPressed: () {
-            Navigator.pushNamed(context, '/settings');
-          }, icon: Icon(LucideIcons.settings)),
-          ShadButton.ghost(onPressed: () {
-            AuthService().signOut();
-          }, leading: Icon(LucideIcons.logOut), child: Text('Logout'),),
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+              icon: Icon(LucideIcons.settings)),
+          ShadButton.ghost(
+            onPressed: () {
+              AuthService().signOut();
+            },
+            leading: Icon(LucideIcons.logOut),
+            child: Text('Logout'),
+          ),
         ],
       ),
       body: GridView.builder(
