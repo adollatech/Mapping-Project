@@ -1,5 +1,5 @@
 name: surveyapp
-description: "A land mapping mobile app."
+description: 'A land mapping mobile app.'
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -15,10 +15,9 @@ dependencies:
   geolocator: ^13.0.4
   hive_ce: ^2.9.0
   hive_ce_flutter: ^2.2.0
-  pocketbase: ^0.22.0
-#  workmanager: ^0.5.2
+  pocketbase: ^0.23.0
+  #  workmanager: ^0.5.2
   latlong2: ^0.9.1
-  provider: ^6.1.4
   maps_toolkit: ^3.1.0
   uuid: ^4.5.1
   image_picker: ^1.1.2
@@ -27,9 +26,11 @@ dependencies:
   device_preview: ^1.2.0
   flutter_map_marker_cluster:
     git:
-      url: https://github.com/lpongetti/flutter_map_marker_cluster.git
+      # url: https://github.com/lpongetti/flutter_map_marker_cluster.git // Original
+      url: https://github.com/matteomrz/flutter_map_marker_cluster.git
       ref: master
   permission_handler: ^12.0.0+1
+  http: ^1.5.0-beta.2
 
 dev_dependencies:
   flutter_test:

@@ -16,7 +16,9 @@ PocketBase get pb {
     save: (String data) async => box.put('pb_auth', data),
     initial: box.get('pb_auth'),
   );
-  return PocketBase('http://127.0.0.1:8090', authStore: store);
+  return PocketBase("https://survey.db.staging.bandughana.com",
+      // 'http://127.0.0.1:8090',
+      authStore: store);
 }
 
 class AuthService extends ChangeNotifier {
@@ -40,6 +42,7 @@ class AuthService extends ChangeNotifier {
       await pb.collection("users").requestVerification(user["email"]);
       return record;
     } on ClientException catch (e) {
+      log(e.toString(), error: e.response);
       throw ServiceResponseException(ServiceResponse.fromJson(e.response));
     }
   }

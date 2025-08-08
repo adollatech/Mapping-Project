@@ -328,8 +328,8 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: aec4cc186f9367d81925ecf909f638489c491539
-      url: "https://github.com/lpongetti/flutter_map_marker_cluster.git"
+      resolved-ref: f45d4aa97944fb8175894c747ee292a10fbd7369
+      url: "https://github.com/matteomrz/flutter_map_marker_cluster.git"
     source: git
     version: "8.1.0"
   flutter_map_marker_popup:
@@ -337,8 +337,8 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: fd98f68a3619b4d8c0260e0aa161ff37bb9695be
-      url: "https://github.com/enricostrijks/flutter_map_marker_popup.git"
+      resolved-ref: "85863dcf0d480431516c022cedbf8cbc13a65428"
+      url: "https://github.com/matteomrz/flutter_map_marker_popup.git"
     source: git
     version: "7.0.0"
   flutter_plugin_android_lifecycle:
@@ -448,13 +448,13 @@ packages:
     source: hosted
     version: "2.3.1"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
-      sha256: "2c11f3f94c687ee9bad77c171151672986360b2b001d109814ee7140b2cf261b"
+      sha256: "85ab0074f9bf2b24625906d8382bbec84d3d6919d285ba9c106b07b65791fb99"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.0-beta.2"
   http_client_helper:
     dependency: transitive
     description:
@@ -859,10 +859,10 @@ packages:
     dependency: "direct main"
     description:
       name: pocketbase
-      sha256: f70353ea9c583fabe4165880e054504c5036c428f59c0fc588d64bb19218df05
+      sha256: "98572a1b3da2e2e4021bef5e3c72d98b072734cc290b2e89a5d8180c86855277"
       url: "https://pub.dev"
     source: hosted
-    version: "0.22.0"
+    version: "0.23.0"
   polylabel:
     dependency: transitive
     description:
@@ -888,7 +888,7 @@ packages:
     source: hosted
     version: "2.1.0"
   provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: provider
       sha256: "4abbd070a04e9ddc287673bf5a030c7ca8b685ff70218720abab8b092f53dd84"

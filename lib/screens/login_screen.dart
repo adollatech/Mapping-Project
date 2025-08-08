@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/field.dart';
-import 'package:surveyapp/screens/trailing_loader.dart';
+import 'package:surveyapp/widgets/trailing_loader.dart';
 import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/utils/field_validation.dart';
 import 'package:surveyapp/utils/service_response_exception.dart';
@@ -134,11 +134,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/reset-password');
                     }),
-                ShadButton.link(
-                    child: Text('No Account? Register'),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/register');
-                    }),
+                // ShadButton.link(
+                //     child: Text('No Account? Register'),
+                //     onPressed: () {
+                //       Navigator.pushNamed(context, '/register');
+                //     }),
               ],
             ),
           ],

@@ -76,7 +76,7 @@ class _FormAdapterState extends State<FormAdapter> {
   void _onFieldValueChanged(String fieldId, dynamic value) {
     setState(() {
       _fieldValues[fieldId] = value;
-      _buildSections(); // This is fine here, as setState triggers a build where context is valid
+      _buildSections();
       _clearDependentFieldValues(fieldId, value);
     });
     log("Field Values: $_fieldValues");
@@ -92,8 +92,7 @@ class _FormAdapterState extends State<FormAdapter> {
             if (_fieldValues.containsKey(field.id)) {
               // Check if it exists before trying to remove or set to null
               _fieldValues.remove(field.id);
-              // You might want to set it to null or an appropriate default
-              // _fieldValues[field.id] = null;
+              _fieldValues[field.id] = null;
               log("Cleared value for dependent field: ${field.id}");
             }
           }
@@ -370,12 +369,6 @@ class _FormAdapterState extends State<FormAdapter> {
   Widget build(BuildContext context) {
     if (!_isInitialBuildDone ||
         (_builtSections.isEmpty && widget.form.sections.isNotEmpty)) {
-      // If _buildSections hasn't run yet or somehow resulted in empty sections
-      // when there should be some, show a loader.
-      // This might happen if didChangeDependencies hasn't completed its first run
-      // before the first build.
-      // Alternatively, if _buildSections is guaranteed by didChangeDependencies,
-      // and sections can truly be empty, the latter checks are more appropriate.
       return const Center(
           child: CircularProgressIndicator(key: ValueKey("adapter_loader")));
     }
@@ -386,14 +379,13 @@ class _FormAdapterState extends State<FormAdapter> {
               key: ValueKey("adapter_no_sections")));
     }
     if (_builtSections.isEmpty) {
-      // This case might be hit if the form truly has no sections defined in widget.form
       return const Center(
           child: Text("Form is empty.", key: ValueKey("adapter_form_empty")));
     }
 
     return ShadForm(
       key: _formKey,
-      // initialValues: _fieldValues, // ShadForm might support this for initial values from map
+      initialValue: _fieldValues,
       child: Stack(
         children: [
           SingleChildScrollView(
@@ -431,7 +423,6 @@ class _FormAdapterState extends State<FormAdapter> {
             right: 0,
             bottom: 0,
             child: Material(
-              // Added Material for elevation and theming
               elevation: 4.0,
               child: Stack(children: [
                 ShadCard(

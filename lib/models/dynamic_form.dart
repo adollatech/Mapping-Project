@@ -49,18 +49,21 @@ class DynamicForm {
 class Section {
   final String title;
   final String id;
+  final String? description;
   final List<Field> fields;
 
   Section({
     required this.title,
     required this.fields,
     required this.id,
+    this.description,
   });
 
   factory Section.fromJson(Map<String, dynamic> json) {
     return Section(
       id: json['id'],
       title: json['title'],
+      description: json['description'],
       fields: (json['fields'] as List)
           .map((field) => Field.fromJson(field))
           .toList(),
@@ -71,6 +74,7 @@ class Section {
     return {
       'id': id,
       'title': title,
+      'description': description,
       'fields': fields.map((field) => field.toJson()).toList(),
     };
   }

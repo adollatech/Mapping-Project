@@ -18,6 +18,8 @@ class CustomStreamBuilder<T> extends StatefulWidget {
   final Widget Function()? onEmpty;
   final String? sort;
 
+  final String? expand;
+
   const CustomStreamBuilder({
     super.key,
     required this.collection,
@@ -26,6 +28,7 @@ class CustomStreamBuilder<T> extends StatefulWidget {
     this.filter,
     this.limit,
     this.sort,
+    this.expand,
     this.topic = "*",
     this.loader,
     this.onError,
@@ -49,15 +52,15 @@ class _CustomStreamBuilderState<T> extends State<CustomStreamBuilder<T>> {
 
   Future<void> _fetchInitialData() async {
     try {
-      final result = await pb.collection(widget.collection).getList(
-            page: 1,
-            perPage: widget.limit ?? 50,
+      final result = await pb.collection(widget.collection).getFullList(
+            // page: 1,
+            // perPage: widget.limit ?? 50,
             filter: widget.filter,
             sort: widget.sort,
+            expand: widget.expand,
           );
 
-      final data =
-          result.items.map((record) => widget.fromMap(record.data)).toList();
+      final data = result.map((record) => widget.fromMap(record.data)).toList();
       _streamController.sink.add(data);
     } on ClientException catch (e) {
       final message = e.response['message'] ?? 'Something went wrong';
@@ -95,7 +98,9 @@ class _CustomStreamBuilderState<T> extends State<CustomStreamBuilder<T>> {
                 Text("Failed to get ${widget.collection.split("_").join(" ")}"),
           );
         }
-        if (!snapshot.hasData || snapshot.data == null) {
+        if (!snapshot.hasData ||
+            snapshot.data == null ||
+            snapshot.data?.isEmpty == true) {
           if (widget.onEmpty != null) {
             return widget.onEmpty!();
           }

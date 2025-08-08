@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/agent.dart';
-import 'package:surveyapp/screens/trailing_loader.dart';
+import 'package:surveyapp/widgets/trailing_loader.dart';
 import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/utils/utils.dart';
 import 'package:surveyapp/widgets/loading_widget.dart';

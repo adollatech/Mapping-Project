@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:surveyapp/screens/select_response_screen.dart';
 import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/utils/utils.dart';
+import 'package:surveyapp/widgets/stat_card.dart';
 import 'package:surveyapp/widgets/tappable_card.dart';
 
 class Action {
@@ -23,34 +25,28 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final actions = [
     Action(
-        icon: LucideIcons.plus100,
+        icon: LucideIcons.circlePlus,
         title: "New Survey",
-        subtitle: "Start a survey to collect responses",
-        onTap: (ctx) => Navigator.pushNamed(ctx, '/surveys')),
+        subtitle: "Select a survey form to collect responses",
+        onTap: (ctx) => Navigator.pushNamed(ctx, '/forms')),
     Action(
       icon: LucideIcons.recycle,
       title: "Continue Survey",
-      subtitle: "Continue an existing survey that was previously saved",
-      onTap: (context) => Navigator.pushNamed(context, '/map'),
+      subtitle: "Continue an existing survey you previously saved",
+      onTap: (context) => Navigator.pushNamed(context, '/saved-surveys'),
+    ),
+    Action(
+      icon: LucideIcons.copy,
+      title: "Reuse Existing",
+      subtitle: "Collect new survey based on existing entry",
+      onTap: (context) => Navigator.push(context,
+          MaterialPageRoute(builder: (ctx) => SelectResponsesScreen())),
     ),
     Action(
       icon: LucideIcons.listCheck,
       title: "All Surveys",
       subtitle: "View and manage all captured surveys",
-    ),
-    Action(
-        icon: LucideIcons.chartArea,
-        title: "Download Areas",
-        subtitle: "Get maps, parcels, vector data"),
-    Action(
-      icon: LucideIcons.download,
-      title: "Download Forms",
-      subtitle: "Get the survey forms for your project",
-    ),
-    Action(
-      icon: LucideIcons.bluetoothConnected,
-      title: "Devices Connected",
-      subtitle: "List all connected Bluetooth devices",
+      onTap: (context) => Navigator.pushNamed(context, '/surveys'),
     ),
   ];
 
@@ -75,29 +71,69 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: GridView.builder(
-          itemCount: actions.length,
-          padding: const EdgeInsets.all(16),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            mainAxisExtent: 110,
-            maxCrossAxisExtent: 400,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: 1.5,
-          ),
-          shrinkWrap: true,
-          itemBuilder: (context, index) => TappableCard(
-                onTap: () {
-                  if (actions[index].onTap != null) {
-                    actions[index].onTap!(context);
-                  } else {
-                    showSnackBar(context, 'Action not implemented yet');
-                  }
-                },
-                title: actions[index].title,
-                icon: actions[index].icon,
-                subtitle: actions[index].subtitle,
-              )),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              height: 125,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: [
+                  StatCard(
+                    collection: 'forms',
+                    filter: 'assigned_to.id ?= "${AuthService().userId}"',
+                    title: "Assigned Forms",
+                    color: Colors.blue,
+                    darkColor: Colors.blue.shade900,
+                  ),
+                  StatCard(
+                    collection: 'responses',
+                    title: "My Survey Responses",
+                    filter: 'collected_by = "${AuthService().userId}"',
+                    color: Colors.green,
+                    darkColor: Colors.green.shade900,
+                  ),
+                  StatCard(
+                    collection: 'surveys',
+                    title: "Unfinished Surveys",
+                    isLocal: true,
+                    color: Colors.orange,
+                    darkColor: Colors.deepOrangeAccent,
+                  ),
+                ].map((e) => e).toList(),
+              ),
+            ),
+            GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: actions.length,
+                padding: const EdgeInsets.all(16),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  mainAxisExtent: 110,
+                  maxCrossAxisExtent: 400,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1.5,
+                ),
+                shrinkWrap: true,
+                itemBuilder: (context, index) => TappableCard(
+                      onTap: () {
+                        if (actions[index].onTap != null) {
+                          actions[index].onTap!(context);
+                        } else {
+                          showSnackBar(context, 'Action not implemented yet');
+                        }
+                      },
+                      title: actions[index].title,
+                      icon: actions[index].icon,
+                      subtitle: actions[index].subtitle,
+                    )),
+          ],
+        ),
+      ),
     );
   }
 }

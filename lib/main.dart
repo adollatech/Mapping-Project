@@ -1,22 +1,22 @@
-import 'package:flutter/foundation.dart' show kReleaseMode;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:device_preview/device_preview.dart';
 
 import 'package:surveyapp/screens/about.dart';
-import 'package:surveyapp/screens/boundary_mapping.dart';
 import 'package:surveyapp/screens/email_confirmation_screen.dart';
 import 'package:surveyapp/screens/forms_screen.dart';
 import 'package:surveyapp/screens/profile_screen.dart';
 import 'package:surveyapp/screens/reset_password_screen.dart';
+import 'package:surveyapp/screens/responses_screen.dart';
+import 'package:surveyapp/screens/saved_forms_screen.dart';
 
-import 'screens/data_sync_screen.dart';
 import 'screens/home_screen.dart';
 // import 'package:workmanager/workmanager.dart';
 
 import 'screens/login_screen.dart';
-import 'screens/mapping_list_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signup_screen.dart';
 
@@ -40,8 +40,9 @@ Future<void> main() async {
 
   await Hive.initFlutter();
   await Hive.openBox('settings');
+  await Hive.openBox<String>('surveys');
   runApp(DevicePreview(
-    enabled: !kReleaseMode,
+    enabled: !kReleaseMode && defaultTargetPlatform != TargetPlatform.android,
     builder: (context) => MyApp(),
   ));
 }
@@ -96,19 +97,19 @@ class MyApp extends StatelessWidget {
                     case '/verify-email':
                       return const EmailConfirmationScreen();
                     case '/surveys':
+                      return const ResponsesScreen();
+                    case '/forms':
                       return const FormsScreen();
-                    case '/map':
-                      return const BoundaryMapping();
+                    case '/saved-surveys':
+                      return const SavedFormsScreen();
                     case '/register':
                       return const SignUpScreen();
                     case '/home':
                       return const HomeScreen();
-                    case '/mapping_list':
-                      return const MappingListScreen();
                     case '/settings':
                       return const SettingsScreen();
-                    case '/data_sync':
-                      return const DataSyncScreen();
+                    // case '/data_sync':
+                    //   return const DataSyncScreen();
                     case '/about':
                       return const About();
                     case '/profile':
@@ -124,13 +125,13 @@ class MyApp extends StatelessWidget {
               '/signup': (context) => const SignUpScreen(),
               '/reset-password': (context) => const ResetPasswordScreen(),
               '/verify-email': (context) => const EmailConfirmationScreen(),
-              '/surveys': (context) => const FormsScreen(),
-              '/map': (context) => const BoundaryMapping(),
+              '/surveys': (context) => const ResponsesScreen(),
+              '/forms': (context) => const FormsScreen(),
+              '/saved-surveys': (context) => const SavedFormsScreen(),
               '/register': (context) => const SignUpScreen(),
               '/home': (context) => const HomeScreen(),
-              '/mapping_list': (context) => const MappingListScreen(),
               '/settings': (context) => const SettingsScreen(),
-              '/data_sync': (context) => const DataSyncScreen(),
+              // '/data_sync': (context) => const DataSyncScreen(),
               '/about': (context) => const About(),
               '/profile': (context) => const ProfileScreen(),
             },

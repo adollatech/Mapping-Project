@@ -53,7 +53,7 @@ class BaseTextInputField extends StatelessWidget {
       onChanged: onChanged,
       obscureText: obscureText,
       trailing: trailing,
-      initialValue: currentValue,
+      initialValue: currentValue?.toString() ?? '',
       validator: (value) =>
           _validateField(value, FieldValidation(validation: field.validation)),
     );
@@ -132,15 +132,20 @@ class NumberInputField extends StatelessWidget {
       required this.onChanged,
       this.currentValue});
   final Field field;
-  final Function(double) onChanged;
-  final String? currentValue;
+  final Function(num) onChanged;
+  final dynamic currentValue;
 
   @override
   Widget build(BuildContext context) {
     return BaseTextInputField(
       field: field,
       onChanged: (v) {
-        final parsedValue = double.tryParse(v);
+        final num? parsedValue;
+        if (v.runtimeType == num) {
+          parsedValue = v as num;
+        } else {
+          parsedValue = num.tryParse(v);
+        }
         if (parsedValue != null) {
           onChanged(parsedValue);
         }
@@ -192,7 +197,7 @@ class DateInputField extends StatelessWidget {
       required this.onChanged,
       this.currentValue});
   final Field field;
-  final Function(DateTime?) onChanged;
+  final Function(String?) onChanged;
   final DateTime? currentValue;
 
   @override
@@ -201,7 +206,7 @@ class DateInputField extends StatelessWidget {
       id: field.id,
       label: Text(field.label),
       width: MediaQuery.of(context).size.width * 0.9,
-      onChanged: onChanged,
+      onChanged: (d) => onChanged(d?.toIso8601String()),
       initialValue: currentValue,
       validator: (value) =>
           _validateField(value, FieldValidation(validation: field.validation)),
