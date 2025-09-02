@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/field.dart';
 import 'package:surveyapp/widgets/trailing_loader.dart';
@@ -104,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               placeholder: const Text('Password'),
               obscureText: _obscure,
+              textInputAction: TextInputAction.send,
               leading: const Padding(
                 padding: EdgeInsets.all(4.0),
                 child: Icon(LucideIcons.lock),
@@ -132,13 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ShadButton.link(
                     child: Text('Forgot Password?'),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/reset-password');
+                      context.push('/reset-password');
                     }),
-                // ShadButton.link(
-                //     child: Text('No Account? Register'),
-                //     onPressed: () {
-                //       Navigator.pushNamed(context, '/register');
-                //     }),
               ],
             ),
           ],
@@ -156,7 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleLogin() async {
     if (formKey.currentState!.saveAndValidate()) {
-      log("Form: ${formKey.currentState!.value['password']}");
       setState(() => _loading = true);
       final email = formKey.currentState?.value['email'];
       final password = formKey.currentState?.value['password'];

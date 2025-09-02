@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:surveyapp/models/survey_response.dart';
-import 'package:surveyapp/screens/mapping_form_screen.dart';
 import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/widgets/custom_stream_builder.dart';
 import 'package:surveyapp/widgets/response_list_tile.dart';
@@ -31,16 +31,12 @@ class SelectResponsesScreen extends StatelessWidget {
               itemCount: forms.length,
               itemBuilder: (context, idx) {
                 return ResponseListTile(
-                  index: idx,
-                  survey: forms[idx],
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (ctx) => MappingFormScreen(
-                                form: forms[idx].form!,
-                                response: forms[idx].response,
-                              ))),
-                );
+                    index: idx,
+                    survey: forms[idx],
+                    onTap: () => context.push('/form', extra: {
+                          'form': forms[idx].form!.toJson(),
+                          'response': forms[idx].response.toJson()
+                        }));
               },
               separatorBuilder: (BuildContext context, int index) => Divider(),
             );

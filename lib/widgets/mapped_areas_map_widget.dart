@@ -77,7 +77,7 @@ class _MappedAreasMapWidgetState extends State<MappedAreasMapWidget> {
               // Base map tiles
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.adollatech.survey.app',
+                userAgentPackageName: 'com.adollatech.latrace',
               ),
 
               // Polygon layers for each mapped area
@@ -217,7 +217,7 @@ class _MappedAreasMapWidgetState extends State<MappedAreasMapWidget> {
             SizedBox(height: 4),
             ...widget.surveys.asMap().entries.map((entry) {
               int index = entry.key;
-              MappedArea area = entry.value.mappedArea;
+              // MappedArea area = entry.value.mappedArea;
               Color color = borderColors[index % borderColors.length];
 
               return Padding(

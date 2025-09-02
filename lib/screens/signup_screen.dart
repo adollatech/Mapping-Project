@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/utils/service_response_exception.dart';
 import 'package:surveyapp/utils/utils.dart';
@@ -84,7 +85,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   if (value.isEmpty) {
                     return "Email address is required";
                   }
-                  if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
                       .hasMatch(value)) {
                     return "Enter a valid email address";
                   }
@@ -129,7 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ShadButton.link(
                       child: Text('Already have an account? Login'),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/login');
+                        context.push('/login');
                       }),
                 ],
               )

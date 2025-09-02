@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:surveyapp/models/survey_response.dart';
-import 'package:surveyapp/screens/view_mapping_screen.dart';
 import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/widgets/custom_stream_builder.dart';
+import 'package:surveyapp/widgets/mapped_areas_map_widget.dart';
 import 'package:surveyapp/widgets/response_list_tile.dart';
 
-class ResponsesScreen extends StatelessWidget {
+class ResponsesScreen extends StatefulWidget {
   const ResponsesScreen({super.key});
+
+  @override
+  State<ResponsesScreen> createState() => _ResponsesScreenState();
+}
+
+class _ResponsesScreenState extends State<ResponsesScreen> {
+  final mapView = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +22,24 @@ class ResponsesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Surveys'),
+        actions: [
+          ValueListenableBuilder(
+              valueListenable: mapView,
+              builder: (context, value, child) {
+                return SizedBox(
+                  width: 140,
+                  child: CheckboxListTile.adaptive(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: value,
+                      onChanged: (v) {
+                        mapView.value = v == true;
+                      },
+                      title: Text('Map View')),
+                );
+              })
+        ],
       ),
       body: CustomStreamBuilder(
           collection: 'responses',
@@ -27,23 +53,29 @@ class ResponsesScreen extends StatelessWidget {
                 ),
               ),
           builder: (context, responses) {
-            return ListView.separated(
-              itemCount: responses.length,
-              itemBuilder: (context, idx) {
-                return ResponseListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) =>
-                                ViewMappingScreen(survey: responses[idx])));
-                  },
-                  index: idx,
-                  survey: responses[idx],
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) => Divider(),
-            );
+            return ValueListenableBuilder(
+                valueListenable: mapView,
+                builder: (context, value, child) {
+                  return Visibility(
+                    visible: value,
+                    replacement: ListView.separated(
+                      itemCount: responses.length,
+                      itemBuilder: (context, idx) {
+                        return ResponseListTile(
+                          onTap: () {
+                            context.push('/view-mapping',
+                                extra: responses[idx].toJson());
+                          },
+                          index: idx,
+                          survey: responses[idx],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(),
+                    ),
+                    child: MappedAreasMapWidget(surveys: responses),
+                  );
+                });
           }),
     );
   }

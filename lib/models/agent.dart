@@ -3,14 +3,12 @@ class Agent {
   final String name;
   final String email;
   final String? phone;
-  final String? companyCode;
 
   Agent({
     required this.id,
     required this.name,
     required this.email,
     this.phone,
-    this.companyCode,
   });
 
   factory Agent.fromJson(Map<String, dynamic> json) {
@@ -19,7 +17,6 @@ class Agent {
       name: json['name'],
       email: json['email'],
       phone: json['phone'],
-      companyCode: json['companyCode'],
     );
   }
 
@@ -30,7 +27,6 @@ class Agent {
       'name': name,
       'email': email,
       'phone': phone,
-      'companyCode': companyCode,
     };
   }
 }

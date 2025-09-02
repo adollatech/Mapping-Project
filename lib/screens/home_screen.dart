@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:surveyapp/screens/select_response_screen.dart';
 import 'package:surveyapp/services/auth_service.dart';
-import 'package:surveyapp/utils/utils.dart';
 import 'package:surveyapp/widgets/stat_card.dart';
 import 'package:surveyapp/widgets/tappable_card.dart';
 
@@ -10,9 +9,13 @@ class Action {
   final IconData icon;
   final String title;
   final String? subtitle;
-  final void Function(BuildContext context)? onTap;
+  final void Function(BuildContext context) onTap;
 
-  Action({required this.icon, required this.title, this.subtitle, this.onTap});
+  Action(
+      {required this.icon,
+      required this.title,
+      this.subtitle,
+      required this.onTap});
 }
 
 class HomeScreen extends StatefulWidget {
@@ -28,25 +31,24 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: LucideIcons.circlePlus,
         title: "New Survey",
         subtitle: "Select a survey form to collect responses",
-        onTap: (ctx) => Navigator.pushNamed(ctx, '/forms')),
+        onTap: (context) => context.push('/forms')),
     Action(
       icon: LucideIcons.recycle,
       title: "Continue Survey",
       subtitle: "Continue an existing survey you previously saved",
-      onTap: (context) => Navigator.pushNamed(context, '/saved-surveys'),
+      onTap: (context) => context.push('/saved-surveys'),
     ),
     Action(
       icon: LucideIcons.copy,
       title: "Reuse Existing",
       subtitle: "Collect new survey based on existing entry",
-      onTap: (context) => Navigator.push(context,
-          MaterialPageRoute(builder: (ctx) => SelectResponsesScreen())),
+      onTap: (context) => context.push('/select-response'),
     ),
     Action(
       icon: LucideIcons.listCheck,
       title: "All Surveys",
       subtitle: "View and manage all captured surveys",
-      onTap: (context) => Navigator.pushNamed(context, '/surveys'),
+      onTap: (context) => context.push('/surveys'),
     ),
   ];
 
@@ -58,14 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
         actionsPadding: EdgeInsets.only(right: 16),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/settings');
-              },
+              onPressed: () => context.push('/settings'),
               icon: Icon(LucideIcons.settings)),
           ShadButton.ghost(
-            onPressed: () {
-              AuthService().signOut();
-            },
+            onPressed: () => AuthService().signOut(),
             leading: Icon(LucideIcons.logOut),
             child: Text('Logout'),
           ),
@@ -121,11 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => TappableCard(
                       onTap: () {
-                        if (actions[index].onTap != null) {
-                          actions[index].onTap!(context);
-                        } else {
-                          showSnackBar(context, 'Action not implemented yet');
-                        }
+                        actions[index].onTap(context);
                       },
                       title: actions[index].title,
                       icon: actions[index].icon,

@@ -53,12 +53,14 @@ class _CustomStreamBuilderState<T> extends State<CustomStreamBuilder<T>> {
   Future<void> _fetchInitialData() async {
     try {
       final result = await pb.collection(widget.collection).getFullList(
-            // page: 1,
-            // perPage: widget.limit ?? 50,
-            filter: widget.filter,
-            sort: widget.sort,
-            expand: widget.expand,
-          );
+          // page: 1,
+          // perPage: widget.limit ?? 50,
+          filter: widget.filter,
+          sort: widget.sort,
+          expand: widget.expand,
+          headers: {
+            'userId': AuthService().userId,
+          });
 
       final data = result.map((record) => widget.fromMap(record.data)).toList();
       _streamController.sink.add(data);

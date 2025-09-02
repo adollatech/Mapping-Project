@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/field.dart';
 import 'package:surveyapp/services/auth_service.dart';
@@ -81,12 +82,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ShadButton.link(
                         child: Text('Remembered Password? Login'),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/login');
-                        }),
-                    ShadButton.link(
-                        child: Text('No Account? Register'),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/register');
+                          context.push('/login');
                         }),
                   ],
                 ),
@@ -106,7 +102,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
               ShadButton(
                 onPressed: () async {
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 child: const Text('Go Back'),
               ),

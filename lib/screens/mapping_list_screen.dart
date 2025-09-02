@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:surveyapp/models/survey_response.dart';
-import 'package:surveyapp/screens/view_mapping_screen.dart';
 import 'package:surveyapp/services/database_service.dart';
-import 'package:surveyapp/widgets/mappings_map.dart';
+import 'package:surveyapp/widgets/mapped_areas_map_widget.dart';
 
 class MappingListScreen extends StatefulWidget {
   const MappingListScreen({super.key, required this.formId});
@@ -60,11 +60,8 @@ class _MappingListScreenState extends State<MappingListScreen> {
                               '\nArea: ${session.mappedArea.area?.toStringAsFixed(4)}'),
                           isThreeLine: session.mappedArea.area != null,
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (ctx) =>
-                                        ViewMappingScreen(survey: session)));
+                            context.push('/view-mapping',
+                                extra: session.toJson());
                           },
                         );
                       },

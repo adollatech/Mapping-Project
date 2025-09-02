@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/agent.dart';
@@ -44,8 +45,7 @@ class SettingsScreen extends StatelessWidget {
                               Text('Edit'),
                             ],
                           ),
-                          onTap: () => Navigator.pushNamed(
-                            context,
+                          onTap: () => context.push(
                             '/profile',
                           ),
                         ),
@@ -106,13 +106,13 @@ class SettingsScreen extends StatelessWidget {
                         leading: const Icon(LucideIcons.hammer),
                         title: const Text("Terms & Conditions"),
                         trailing: const Icon(Icons.open_in_new),
-                        onTap: () => Navigator.pushNamed(context, '/data_sync'),
+                        onTap: () => context.push('/sync'),
                       ),
                       ListTile(
                         leading: const Icon(LucideIcons.shield),
                         title: const Text("Privacy Policy"),
                         trailing: const Icon(Icons.open_in_new),
-                        onTap: () => Navigator.pushNamed(context, '/data_sync'),
+                        onTap: () => context.push('/sync'),
                       ),
                     ],
                   );

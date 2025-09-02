@@ -15,8 +15,13 @@ PocketBase get pb {
   final store = AsyncAuthStore(
     save: (String data) async => box.put('pb_auth', data),
     initial: box.get('pb_auth'),
+    clear: () async {
+      box.clear();
+      Hive.box<String>('surveys').clear();
+    },
   );
-  return PocketBase("https://survey.db.staging.bandughana.com",
+  return PocketBase(
+      "https://survey.db.staging.bandughana.com",
       // 'http://127.0.0.1:8090',
       authStore: store);
 }
@@ -27,7 +32,9 @@ class AuthService extends ChangeNotifier {
     String password,
   ) async {
     try {
-      return await pb.collection("users").authWithPassword(email, password);
+      final result =
+          await pb.collection("users").authWithPassword(email, password);
+      return result;
     } on ClientException catch (e) {
       log(e.toString(), error: e.response);
       throw ServiceResponseException(ServiceResponse.fromJson(e.response));
@@ -110,8 +117,16 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  void signOut() {
+  Future<void> signOut() async {
+    // await NetworkService(pb)
+    //     .send('auth/logout', {"userId": pb.authStore.record?.id});
     pb.authStore.clear();
-    Hive.box("settings").clear();
+  }
+
+  bool isSignedIn() {
+    final settings = Hive.box('settings');
+    return pb.authStore.isValid &&
+        settings.containsKey('pb_auth') &&
+        settings.get('pb_auth') != null;
   }
 }

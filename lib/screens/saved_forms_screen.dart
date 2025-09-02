@@ -1,12 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/base_form_response.dart';
 import 'package:surveyapp/models/dynamic_form.dart';
-import 'package:surveyapp/screens/mapping_form_screen.dart';
-import 'package:surveyapp/utils/utils.dart';
 
 class SavedFormsScreen extends StatelessWidget {
   const SavedFormsScreen({super.key});
@@ -76,7 +75,7 @@ class SavedFormsScreen extends StatelessWidget {
                         )),
                   ),
                   onTap: () =>
-                      push(context, MappingFormScreen(form: forms[idx])),
+                      context.push('/form', extra: forms[idx].toJson()),
                   title: Text(responses[idx].formName),
                   trailing: Icon(Icons.arrow_forward_ios_rounded, size: 24),
                   subtitle: Column(

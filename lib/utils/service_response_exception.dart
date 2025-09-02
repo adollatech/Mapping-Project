@@ -19,7 +19,7 @@ class ServiceResponseException {
   }
 
   String get error {
-    return response.error ?? 'An unknown error occurred';
+    return response.error ?? response.message ?? 'An unknown error occurred';
   }
 
   String get data {

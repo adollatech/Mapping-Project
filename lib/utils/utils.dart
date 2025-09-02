@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 Future<Position> getCurrentLocation() async {
@@ -126,6 +127,6 @@ void showSnackBar(BuildContext context, String message,
   ShadToaster.of(context).show(toast);
 }
 
-push(BuildContext context, Widget page) {
-  Navigator.push(context, MaterialPageRoute(builder: (ctx) => page));
+push(BuildContext context, String page) {
+  context.push(page);
 }

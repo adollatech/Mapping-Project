@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:surveyapp/models/dynamic_form.dart';
-import 'package:surveyapp/screens/mapping_form_screen.dart';
 import 'package:surveyapp/services/auth_service.dart';
-import 'package:surveyapp/utils/utils.dart';
 import 'package:surveyapp/widgets/custom_stream_builder.dart';
 
 class FormsScreen extends StatelessWidget {
@@ -35,7 +34,7 @@ class FormsScreen extends StatelessWidget {
                         )),
                   ),
                   onTap: () =>
-                      push(context, MappingFormScreen(form: forms[idx])),
+                      context.push('/form', extra: forms[idx].toJson()),
                   title: Text(forms[idx].name),
                   trailing: Icon(
                     Icons.arrow_forward_ios_rounded,

@@ -31,6 +31,7 @@ dependencies:
       ref: master
   permission_handler: ^12.0.0+1
   http: ^1.5.0-beta.2
+  go_router: ^16.2.0
 
 dev_dependencies:
   flutter_test:

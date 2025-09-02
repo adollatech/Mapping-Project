@@ -7,7 +7,7 @@ import 'package:surveyapp/models/area.dart';
 import 'package:surveyapp/models/base_form_response.dart';
 import 'package:surveyapp/models/dynamic_form.dart';
 import 'package:surveyapp/models/field.dart';
-import 'package:surveyapp/screens/boundary_mapping.dart';
+import 'package:surveyapp/screens/boundary_mapping_screen.dart';
 import 'package:surveyapp/services/auth_service.dart';
 import 'package:surveyapp/services/database_service.dart';
 import 'package:surveyapp/utils/utils.dart';
@@ -143,17 +143,32 @@ class _MappingFormScreenState extends State<MappingFormScreen> {
     }
   }
 
+  Future<void> _saveOffline(MappedArea mappedArea) async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final response = _getSavedFormValues();
+      if (response != null) {
+        final box = Hive.box("unsynced");
+        box.add(jsonEncode({
+          'form': widget.form.id,
+          'collected_by': AuthService().userId,
+          'area': mappedArea.toJson(),
+          'responses': response.toJson(),
+        }));
+      }
+    }
+  }
+
   Future<void> _submitForm(MappedArea mappedArea) async {
     if (_formKey.currentState?.validate() ?? false) {
       try {
         final response = _getSavedFormValues();
         if (response != null) {
           await DatabaseService().create(
-            'responses',
+            'surveys',
             {
               'form': widget.form.id,
               'collected_by': AuthService().userId,
-              'area': mappedArea,
+              'area': mappedArea.toJson(),
               'responses': response.toJson(),
             },
           );
@@ -306,7 +321,10 @@ class _MappingFormScreenState extends State<MappingFormScreen> {
                 isTabletOrLarger: isTabletOrLarger,
               ),
             ),
-            BoundaryMapping(onSubmitAreaMapped: _submitForm)
+            BoundaryMappingScreen(
+              onSubmitAreaMapped: _submitForm,
+              onSaveAreaMappedOffline: _saveOffline,
+            )
           ],
         ),
       ),

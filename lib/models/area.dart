@@ -6,7 +6,7 @@ class BoundaryPoint {
   final LatLng position;
   final int index;
   final DateTime timestamp;
-  final double? distanceToNext;
+  double? distanceToNext;
 
   BoundaryPoint({
     required this.position,
